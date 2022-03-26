@@ -5,6 +5,7 @@ import BreezeDropdown from '@/Components/Dropdown.vue';
 import BreezeDropdownLink from '@/Components/DropdownLink.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import FlashMessage from "@/Components/FlashMessage";
 import { Link } from '@inertiajs/inertia-vue3';
 
 const showingNavigationDropdown = ref(false);
@@ -28,8 +29,13 @@ const showingNavigationDropdown = ref(false);
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    لوحة التحكم
                                 </BreezeNavLink>
+                                <template v-if="$page.props.auth.user.role === 'admin'">
+                                    <BreezeNavLink :href="route('users.index')" :active="route().current('users.index')">
+                                        المستخدمين
+                                    </BreezeNavLink>
+                                </template>
                             </div>
                         </div>
 
@@ -51,7 +57,7 @@ const showingNavigationDropdown = ref(false);
 
                                     <template #content>
                                         <BreezeDropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                            تسجيل خروج
                                         </BreezeDropdownLink>
                                     </template>
                                 </BreezeDropdown>
@@ -74,7 +80,7 @@ const showingNavigationDropdown = ref(false);
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            لوحة التحكم
                         </BreezeResponsiveNavLink>
                     </div>
 
@@ -87,7 +93,7 @@ const showingNavigationDropdown = ref(false);
 
                         <div class="mt-3 space-y-1">
                             <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
+                                خروج
                             </BreezeResponsiveNavLink>
                         </div>
                     </div>
@@ -96,13 +102,14 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Heading -->
             <header class="bg-white shadow" v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center flex-row">
                     <slot name="header" />
                 </div>
             </header>
 
             <!-- Page Content -->
             <main>
+                <flash-message />
                 <slot />
             </main>
         </div>

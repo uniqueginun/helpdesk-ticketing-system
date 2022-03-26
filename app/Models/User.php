@@ -2,15 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
+
+    public const ROLE_ADMIN = 'admin';
+
+    public const ROLE_MODERATOR = 'moderator';
+
+    public const ROLE_TECHNICIAN = 'technician';
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +28,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_role'
     ];
 
     /**
@@ -41,4 +49,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        static::softDeleted(function ($user) {
+            $user->deleted_by = auth()->id();
+            $user->save();
+        });
+    }
+
 }
