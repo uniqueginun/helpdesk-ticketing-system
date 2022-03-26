@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 trait HasRoles
@@ -20,8 +21,13 @@ trait HasRoles
         );
     }
 
-    public function hasRole(string $roleName): bool
+    public function hasAnyRole(array $roles): bool
     {
-        return $this->user_role === $roleName;
+        return $this->user_role === self::ROLE_ADMIN || in_array($this->user_role, $roles);
+    }
+
+    public function scopeTechnician(Builder $builder): Builder
+    {
+        return $builder->where('user_role', self::ROLE_TECHNICIAN);
     }
 }

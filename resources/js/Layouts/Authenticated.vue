@@ -36,6 +36,9 @@ const showingNavigationDropdown = ref(false);
                                         المستخدمين
                                     </BreezeNavLink>
                                 </template>
+                                <BreezeNavLink :href="route('tickets.index')" :active="route().current('tickets.index')">
+                                    البلاغات
+                                </BreezeNavLink>
                             </div>
                         </div>
 

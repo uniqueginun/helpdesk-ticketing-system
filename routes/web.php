@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,14 @@ Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
 Route::prefix('/admin')->middleware(['auth', 'verified', 'checkRole:admin'])->group(function () {
     Route::resource('users', UsersController::class);
+});
+
+Route::prefix('/tickets')->as('tickets.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [TicketsController::class, 'index'])->name('index');
+    Route::get('/create', [TicketsController::class, 'create'])->name('create');
+    Route::post('/', [TicketsController::class, 'store'])->name('store');
+    Route::get('/tickets/{ticket:uuid}', [TicketsController::class, 'show'])->name('show');
+    Route::post('/tickets/{ticket:uuid}', [TicketsController::class, 'close'])->name('close');
 });
 
 require __DIR__.'/auth.php';

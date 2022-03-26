@@ -20,7 +20,8 @@ return new class extends Migration
             $table->unsignedInteger('ticket_type');
             $table->string('other_type_text')->nullable();
             $table->text('details');
-            $table->string('demanding_unit');
+            $table->string('employee_name');
+            $table->foreignId('department_id')->references('id')->on('departments');
             $table->enum('priority', ['normal', 'urgent', 'super-argent'])->default('normal');
             $table->enum('status', ['new', 'assigned', 'closed', 'saved'])->default('new');
             $table->foreignId('technician_id')->references('id')->on('users')->constrained();

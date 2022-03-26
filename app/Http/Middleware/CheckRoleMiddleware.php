@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class CheckRoleMiddleware
 {
@@ -15,9 +16,14 @@ class CheckRoleMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string $role)
+    public function handle(Request $request, Closure $next, string $roleString)
     {
-        abort_unless($request->user()->hasRole($role), Response::HTTP_UNAUTHORIZED);
+        $roles = Str::of($roleString)->explode('|')->toArray();
+
+        abort_unless(
+            $request->user()->hasAnyRole($roles),
+            Response::HTTP_UNAUTHORIZED
+        );
 
         return $next($request);
     }

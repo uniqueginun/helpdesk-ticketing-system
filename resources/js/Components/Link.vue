@@ -1,4 +1,6 @@
 <script setup>
+    import { Link } from "@inertiajs/inertia-vue3";
+
     const props = defineProps({
         theme: {
             type: String,
@@ -10,7 +12,7 @@
 </script>
 
 <template>
-    <a
+    <Link
         :class="{
             'border-green-500 text-green-500': is('success'),
             'border-yellow-500 text-yellow-500': is('warning'),
@@ -36,5 +38,5 @@
         "
     >
         <slot></slot>
-    </a>
+    </Link>
 </template>
