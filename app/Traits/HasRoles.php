@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
@@ -29,5 +30,10 @@ trait HasRoles
     public function scopeTechnician(Builder $builder): Builder
     {
         return $builder->where('user_role', self::ROLE_TECHNICIAN);
+    }
+
+    public function canAcceptTicket(): bool
+    {
+        return $this->tickets()->status(Ticket::STATUS_ASSIGNED)->count() < static::MAX_TICKET_COUNT;
     }
 }

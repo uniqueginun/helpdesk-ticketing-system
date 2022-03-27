@@ -57,7 +57,17 @@ class TicketsController extends Controller
      */
     public function create(): InertiaResponse
     {
-        $technicians = User::technician()->latest()->get(['id', 'name']);
+        $technicians = User::technician()
+            ->withCount('tickets')
+            ->latest()
+            ->get(['id', 'name', 'tickets_count'])
+            ->transform(function ($tech) {
+                return [
+                  'id' => $tech->id,
+                  'name' => $tech->name,
+                  'available' => $tech->tickets_count < User::MAX_TICKET_COUNT
+                ];
+            });
 
         return Inertia::render(self::COMPONENT_PREFIX . '/Create', [
             'ticketPriority' => Ticket::$ticketPriority,
@@ -69,6 +79,12 @@ class TicketsController extends Controller
 
     public function store(TicketStoreRequest $request): RedirectResponse
     {
+
+        $technician = User::technician()->find($request->technician);
+
+        if (! $technician->canAcceptTicket()) {
+            return redirect()->back()->with('error', "لا يمكن للفني استقبال 3 طلبات في نفس الوقت");
+        }
 
         DB::beginTransaction();
 

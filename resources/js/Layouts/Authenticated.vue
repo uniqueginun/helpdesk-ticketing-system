@@ -114,7 +114,7 @@ const showingNavigationDropdown = ref(false);
                             <BreezeResponsiveNavLink :href="route('tickets.index')" :active="route().current('tickets.index')">
                                 البلاغات
                             </BreezeResponsiveNavLink>
-                            
+
                             <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 خروج
                             </BreezeResponsiveNavLink>

@@ -26566,7 +26566,7 @@ var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_20 = ["value"];
+var _hoisted_20 = ["disabled", "value"];
 var _hoisted_21 = {
   "class": "flex items-center justify-end mt-4"
 };
@@ -26762,6 +26762,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [_hoisted_19, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.technicians, function (item) {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
               key: item.id,
+              disabled: !item.available,
               value: item.id
             }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 9
             /* TEXT, PROPS */

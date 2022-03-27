@@ -82,6 +82,11 @@ class Ticket extends Model
         $builder->where('technician_id', $userId);
     }
 
+    public function scopeStatus(Builder $builder, string $status)
+    {
+        $builder->where('status', $status);
+    }
+
     public function scopeFilter(Builder $query, array $filters)
     {
         $query->when($filters['priority'] ?? null, function ($query, $priority) {

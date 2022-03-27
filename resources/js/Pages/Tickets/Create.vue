@@ -99,7 +99,7 @@ defineProps({
                             <BreezeLabel for="technicians" value="إسناد البلاغ الى الفني" />
                             <BreezeSelect id="technicians" required v-model="form.technician">
                                 <option value="">إختر الفني</option>
-                                <option v-for="item of technicians" :key="item.id" :value="item.id">{{ item.name }}</option>
+                                <option v-for="item of technicians" :key="item.id" :disabled="!item.available" :value="item.id">{{ item.name }}</option>
                             </BreezeSelect>
                             <input-error :message="form.errors.technician"></input-error>
                         </div>

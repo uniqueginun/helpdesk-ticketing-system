@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,6 +19,8 @@ class User extends Authenticatable
     public const ROLE_MODERATOR = 'moderator';
 
     public const ROLE_TECHNICIAN = 'technician';
+
+    public const MAX_TICKET_COUNT = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -60,4 +63,8 @@ class User extends Authenticatable
         });
     }
 
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class, 'technician_id');
+    }
 }
