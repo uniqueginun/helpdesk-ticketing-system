@@ -99,6 +99,22 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
+                            <BreezeResponsiveNavLink class="ml-8" :href="route('dashboard')" :active="route().current('dashboard')">
+                                لوحة التحكم
+                            </BreezeResponsiveNavLink>
+
+                            <BreezeResponsiveNavLink v-if="$page.props.auth.user.role === 'admin'" :href="route('users.index')" :active="route().current('users.index')">
+                                المستخدمين
+                            </BreezeResponsiveNavLink>
+
+                            <BreezeResponsiveNavLink v-if="$page.props.auth.user.role !== 'technician'" :href="route('departments.index')" :active="route().current('departments.index')">
+                                الأقسام
+                            </BreezeResponsiveNavLink>
+
+                            <BreezeResponsiveNavLink :href="route('tickets.index')" :active="route().current('tickets.index')">
+                                البلاغات
+                            </BreezeResponsiveNavLink>
+                            
                             <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 خروج
                             </BreezeResponsiveNavLink>
