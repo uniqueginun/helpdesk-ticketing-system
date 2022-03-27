@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Ticket;
+use App\Models\User;
+use App\Repo\TicketRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +20,7 @@ class DashboardController extends Controller
         $this->middleware(['auth', 'verified']);
     }
 
-    public function __invoke(Request $request): InertiaResponse
+    public function index(Request $request): InertiaResponse
     {
         $component = $request->user()->user_role;
 
@@ -25,8 +28,38 @@ class DashboardController extends Controller
 
         $tickets = $this->getTicketStatus($moderator);
 
+        $technicians = User::technician()
+            ->withCount('tickets')
+            ->having('tickets_count', '>', 0)
+            ->latest()
+            ->get(['id', 'name'])
+            ->transform(function ($tech) {
+                return [
+                    'id' => $tech->id,
+                    'name' => $tech->name,
+                ];
+            });
+
         return Inertia::render('Dashboards/' . Str::ucfirst($component), [
-            'ticket_status' => $tickets
+            'ticket_status' => $tickets,
+            'ticketPriority' => Ticket::$ticketPriority,
+            'deviceTypes' => Ticket::$deviceTypes,
+            'technicians' => $technicians,
+            'departments' => Department::all()
+        ]);
+    }
+
+    public function query(Request $request, TicketRepository $ticketRepository)
+    {
+        $tickets = $ticketRepository
+            ->setUser($request->user())
+            ->setFilters($request->only('priority', 'status', 'ticket_type', 'department_id'))
+            ->getBuilder()
+            ->get()
+            ->transform($ticketRepository->formattedTicket());
+
+        return Inertia::render('Reports/Index', [
+            'tickets' => $tickets
         ]);
     }
 

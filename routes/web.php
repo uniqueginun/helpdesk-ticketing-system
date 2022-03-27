@@ -31,7 +31,8 @@ use Inertia\Inertia;
 
 Route::redirect('/', '/login');
 
-Route::get('/dashboard', DashboardController::class)->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::post('/dashboard', [DashboardController::class, 'query'])->name('dashboard.query');
 
 Route::prefix('/admin')->middleware(['auth', 'verified', 'checkRole:admin'])->group(function () {
     Route::resource('users', UsersController::class);

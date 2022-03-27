@@ -8,6 +8,7 @@ use App\Http\Requests\TicketStoreRequest;
 use App\Models\Department;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Repo\TicketRepository;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,17 +31,16 @@ class TicketsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): InertiaResponse
+    public function index(Request $request, TicketRepository $ticketRepository): InertiaResponse
     {
-        $moderator = $request->user()->hasAnyRole(['moderator']);
-
-        $tickets = Ticket::query()
-            ->when(! $moderator, fn ($query) => $query->forTechnician(Auth::id()))
-            ->filter($request->only('priority', 'status'))
+        $tickets = $ticketRepository
+            ->setUser($request->user())
+            ->setFilters($request->only('priority', 'status'))
+            ->getBuilder()
             ->orderByDesc('updated_at')
             ->paginate(10)
             ->withQueryString()
-            ->through($this->formattedTicket());
+            ->through($ticketRepository->formattedTicket());
 
         return Inertia::render(self::COMPONENT_PREFIX . '/Index', [
             'filters' => $request->all('priority', 'status'),
@@ -154,25 +154,5 @@ class TicketsController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', "حدثت مشكلة أثناء إنهاء البلاغ");
         }
-    }
-
-    public function formattedTicket(): Closure
-    {
-        return function ($ticket) {
-            return [
-                'id' => $ticket->id,
-                'uuid' => $ticket->uuid,
-                'display_type' => $ticket->display_type,
-                'details' => $ticket->details,
-                'employee_name' => $ticket->employee_name,
-                'priority' => $ticket->priority,
-                'priority_name' => $ticket->priority_name,
-                'status' => $ticket->status,
-                'status_name' => $ticket->status_name,
-                'creation_date' => $ticket->creation_date,
-                'department_name' => $ticket->department->name,
-                'technician_name' => $ticket->technician->name
-            ];
-        };
     }
 }

@@ -93,6 +93,10 @@ class Ticket extends Model
             $query->where('priority', $priority);
         })->when($filters['status'] ?? null, function ($query, $status) {
             $query->where('status', $status);
+        })->when($filters['department_id'] ?? null, function ($query, $department_id) {
+            $query->where('department_id', $department_id);
+        })->when($filters['ticket_type'] ?? null, function ($query, $ticket_type) {
+            $query->where('ticket_type', $ticket_type);
         });
     }
 

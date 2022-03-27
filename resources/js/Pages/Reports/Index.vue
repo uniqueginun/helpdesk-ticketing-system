@@ -1,63 +1,32 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import BreezeLink from '@/Components/Link.vue';
-import BreezeSelect from '@/Components/Select.vue';
-import Pagination from '@/Components/Pagination.vue';
 import TicketStatus from "@/Components/TicketStatus.vue";
 import TicketPriority from "@/Components/TicketPriority.vue";
 import { Head } from '@inertiajs/inertia-vue3';
-import {reactive, watch} from "vue";
-import {Inertia} from "@inertiajs/inertia";
 
 const props = defineProps({
-    filters: Object,
-    tickets: Object,
-    ticketPriority: Object,
-    statuses: Object,
+    tickets: Object
 })
-
-const filters = reactive({
-    priority: props.filters.priority,
-    status: props.filters.status,
-})
-
-watch(filters, (value) => {
-    Inertia.get(route('tickets.index'), value, { preserveState: true })
-})
-
 </script>
 
 <template>
-    <Head title="البلاغات" />
+    <Head title="الإستعلامات" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                البلاغات
+                نتائج الإستعلام
                 <span v-if="tickets.total">(الإجمالي: {{ tickets.total }})</span>
             </h2>
 
-            <breeze-link v-if="$page.props.auth.user.role === 'admin'" type="success" :href="route('tickets.create')">إنشاء بلاغ جديد</breeze-link>
+            <breeze-link type="success" :href="route('dashboard')">إستعلام مره اخرى</breeze-link>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <div class="w-full sm:max-w-md my-3 flex flex-row items-center justify-end">
-                            <div class="w-full mr-1">
-                                <BreezeSelect v-model="filters.priority">
-                                    <option value="">إختر الأولوية</option>
-                                    <option v-for="item of Object.keys(ticketPriority)" :key="item" :value="item">{{ ticketPriority[item] }}</option>
-                                </BreezeSelect>
-                            </div>
-                            <div class="w-full mr-1">
-                                <BreezeSelect id="ticket_type" required v-model.number="filters.status">
-                                    <option value="">إختر الحالة</option>
-                                    <option v-for="item of Object.keys(statuses)" :key="item" :value="item">{{ statuses[item] }}</option>
-                                </BreezeSelect>
-                            </div>
-                        </div>
                         <div class="flex flex-col">
                             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-4 inline-block min-w-full sm:px-6 lg:px-8">
@@ -76,7 +45,7 @@ watch(filters, (value) => {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr v-for="ticket in tickets.data" :key="ticket.id" class="bg-white border-b">
+                                            <tr v-for="ticket in tickets" :key="ticket.id" class="bg-white border-b">
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ ticket.creation_date }}</td>
                                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ ticket.display_type }}</td>
                                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ ticket.employee_name }}</td>
@@ -98,10 +67,10 @@ watch(filters, (value) => {
                                 </div>
                             </div>
                         </div>
-                        <pagination class="mt-6" :links="tickets.links" />
                     </div>
                 </div>
             </div>
         </div>
     </BreezeAuthenticatedLayout>
 </template>
+
