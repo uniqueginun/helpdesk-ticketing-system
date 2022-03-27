@@ -31,11 +31,15 @@ const showingNavigationDropdown = ref(false);
                                 <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     لوحة التحكم
                                 </BreezeNavLink>
-                                <template v-if="$page.props.auth.user.role === 'admin'">
-                                    <BreezeNavLink :href="route('users.index')" :active="route().current('users.index')">
-                                        المستخدمين
-                                    </BreezeNavLink>
-                                </template>
+
+                                <BreezeNavLink v-if="$page.props.auth.user.role === 'admin'" :href="route('users.index')" :active="route().current('users.index')">
+                                    المستخدمين
+                                </BreezeNavLink>
+
+                                <BreezeNavLink v-if="$page.props.auth.user.role !== 'technician'" :href="route('departments.index')" :active="route().current('departments.index')">
+                                    الأقسام
+                                </BreezeNavLink>
+
                                 <BreezeNavLink :href="route('tickets.index')" :active="route().current('tickets.index')">
                                     البلاغات
                                 </BreezeNavLink>

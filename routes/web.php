@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Application;
@@ -42,6 +43,11 @@ Route::prefix('/tickets')->as('tickets.')->middleware(['auth', 'verified'])->gro
     Route::post('/', [TicketsController::class, 'store'])->name('store');
     Route::get('/tickets/{ticket:uuid}', [TicketsController::class, 'show'])->name('show');
     Route::post('/tickets/{ticket:uuid}', [TicketsController::class, 'close'])->name('close');
+});
+
+Route::prefix('/departments')->as('departments.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [DepartmentController::class, 'index'])->name('index');
+    Route::post('/', [DepartmentController::class, 'store'])->name('store');
 });
 
 require __DIR__.'/auth.php';
