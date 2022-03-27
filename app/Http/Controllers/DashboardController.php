@@ -30,7 +30,6 @@ class DashboardController extends Controller
 
         $technicians = User::technician()
             ->withCount('tickets')
-            ->having('tickets_count', '>', 0)
             ->latest()
             ->get(['id', 'name'])
             ->transform(function ($tech) {
