@@ -36,15 +36,17 @@ class TicketsController extends Controller
 
         $tickets = Ticket::query()
             ->when(! $moderator, fn ($query) => $query->forTechnician(Auth::id()))
+            ->filter($request->only('priority', 'status'))
             ->orderByDesc('updated_at')
             ->paginate(10)
             ->withQueryString()
             ->through($this->formattedTicket());
 
         return Inertia::render(self::COMPONENT_PREFIX . '/Index', [
+            'filters' => $request->all('priority', 'status'),
             'tickets' => $tickets,
             'ticketPriority' => Ticket::$ticketPriority,
-            'deviceTypes' => Ticket::$deviceTypes,
+            'statuses' => Ticket::$ticketStatus,
         ]);
     }
 

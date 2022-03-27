@@ -7,10 +7,23 @@ import Pagination from '@/Components/Pagination.vue';
 import TicketStatus from "@/Components/TicketStatus.vue";
 import TicketPriority from "@/Components/TicketPriority.vue";
 import { Head } from '@inertiajs/inertia-vue3';
+import {reactive, watch} from "vue";
+import {Inertia} from "@inertiajs/inertia";
 
-defineProps({
+const props = defineProps({
+    filters: Object,
     tickets: Object,
     ticketPriority: Object,
+    statuses: Object,
+})
+
+const filters = reactive({
+    priority: props.filters.priority,
+    status: props.filters.status,
+})
+
+watch(filters, (value) => {
+    Inertia.get(route('tickets.index'), value, { preserveState: true })
 })
 
 </script>
@@ -33,15 +46,15 @@ defineProps({
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="w-full sm:max-w-md my-3 flex flex-row items-center justify-end">
                             <div class="w-full mr-1">
-                                <BreezeSelect>
-                                    <option value="">الأولوية</option>
+                                <BreezeSelect v-model="filters.priority">
+                                    <option value="">إختر الأولوية</option>
                                     <option v-for="item of Object.keys(ticketPriority)" :key="item" :value="item">{{ ticketPriority[item] }}</option>
                                 </BreezeSelect>
                             </div>
                             <div class="w-full mr-1">
-                                <BreezeSelect>
-                                    <option value="">الأولوية</option>
-                                    <option v-for="item of Object.keys(ticketPriority)" :key="item" :value="item">{{ ticketPriority[item] }}</option>
+                                <BreezeSelect id="ticket_type" required v-model.number="filters.status">
+                                    <option value="">إختر الحالة</option>
+                                    <option v-for="item of Object.keys(statuses)" :key="item" :value="item">{{ statuses[item] }}</option>
                                 </BreezeSelect>
                             </div>
                         </div>
