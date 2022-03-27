@@ -52,7 +52,7 @@ class TicketRepository
                 'status_name' => $ticket->status_name,
                 'creation_date' => $ticket->creation_date,
                 'department_name' => $ticket->department->name,
-                'technician_name' => optional($ticket)->technician->name
+                'technician_name' => optional($ticket->technician)->name
             ];
         };
     }
