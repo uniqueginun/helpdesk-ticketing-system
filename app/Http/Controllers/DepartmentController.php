@@ -32,7 +32,10 @@ class DepartmentController extends Controller
             'name' => 'required|string|max:255'
         ]);
 
-        Department::updateOrCreate(['id' => $validated['id']], ['name' => $validated['name']]);
+        isset($validated['id'])
+            ? Department::find($validated['id'])->update(['name' => $validated['name']])
+            : Department::create(['name' => $validated['name']]);
+
 
         return redirect()->back()->with('success', "تم الحفظ بنجاح");
     }
