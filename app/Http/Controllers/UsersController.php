@@ -107,6 +107,10 @@ class UsersController extends Controller
     {
         abort_if(Auth::id() === $user->id, Response::HTTP_UNAUTHORIZED, 'لا يمكن ان تحذف نفسك');
 
+        if ($user->tickets()->count()) {
+            return redirect()->back()->with('error', "المستخدم مسجلة عليه طلبات لايمكن حذفه");
+        }
+
         $user->delete();
 
         return redirect()->back()->with('success', "تمت إحالة بيانات المستخدم الى سلة المهملات");
