@@ -32,7 +32,7 @@
         <h4>الإستعلام عن البلاغات</h4>
         <div class="py-12">
             <div class="flex items-center justify-center sm:px-6 lg:px-8">
-                <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+                <div class="w-full sm:max-w-md mt-6 px-6 py-4">
                     <form @submit.prevent="submit" autocomplete="off">
 
                         <div class="mt-4">
@@ -55,6 +55,7 @@
                         <div class="mt-4">
                             <BreezeLabel for="user_role" value="الأولوية" />
                             <BreezeSelect id="user_role" required v-model="form.priority">
+                                <option value="">إختر الأولوية</option>
                                 <option v-for="item of Object.keys(priorities)" :key="item" :value="item">{{ priorities[item] }}</option>
                             </BreezeSelect>
                         </div>
