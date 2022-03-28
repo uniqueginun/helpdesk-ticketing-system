@@ -9,7 +9,7 @@ defineProps({
 
 <template>
     <div class="px-10 mx-auto container align-middle">
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-1 gap-2">
             <card v-for="(ticket, index) of ticket_status" :key="index">
                 <div>
                     <Link :href="route('tickets.index', { status: `${ticket.status_name}` })">

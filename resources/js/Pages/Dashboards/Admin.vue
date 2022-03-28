@@ -26,17 +26,19 @@ defineProps({
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <ticket-by-status :ticket_status="ticket_status"></ticket-by-status>
-            </div>
-        </div>
+                <div class="px-10 mx-auto container align-middle">
+                    <div class="grid grid-cols-2 gap-2">
+                        <ticket-report
+                            :priorities="ticketPriority"
+                            :technicians="technicians"
+                            :departments="departments"
+                            :types="deviceTypes"
+                        ></ticket-report>
+                        <ticket-by-status :ticket_status="ticket_status"></ticket-by-status>
+                    </div>
+                </div>
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <ticket-report
-                :priorities="ticketPriority"
-                :technicians="technicians"
-                :departments="departments"
-                :types="deviceTypes"
-            ></ticket-report>
+            </div>
         </div>
     </BreezeAuthenticatedLayout>
 </template>
