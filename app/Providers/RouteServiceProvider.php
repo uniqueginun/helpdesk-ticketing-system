@@ -30,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         if (app()->isProduction()) {
             URL::forceScheme('https');
         }
-        
+
         $this->configureRateLimiting();
 
         $this->routes(function () {

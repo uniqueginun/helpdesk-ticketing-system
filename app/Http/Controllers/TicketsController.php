@@ -12,6 +12,7 @@ use App\Repo\TicketRepository;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -154,5 +155,18 @@ class TicketsController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', "حدثت مشكلة أثناء إنهاء البلاغ");
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Ticket $ticket
+     * @return RedirectResponse
+     */
+    public function destroy(Ticket $ticket)
+    {
+        $ticket->delete();
+
+        return redirect()->back()->with('success', "تم حذف البلاغ بنجاح");
     }
 }

@@ -44,6 +44,7 @@ Route::prefix('/tickets')->as('tickets.')->middleware(['auth', 'verified'])->gro
     Route::post('/', [TicketsController::class, 'store'])->name('store');
     Route::get('/tickets/{ticket:uuid}', [TicketsController::class, 'show'])->name('show');
     Route::post('/tickets/{ticket:uuid}', [TicketsController::class, 'close'])->name('close');
+    Route::delete('/tickets/{ticket:uuid}', [TicketsController::class, 'destroy'])->name('destroy');
 });
 
 Route::prefix('/departments')->as('departments.')->middleware(['auth', 'verified'])->group(function () {

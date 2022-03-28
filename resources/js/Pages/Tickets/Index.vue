@@ -5,7 +5,7 @@ import BreezeSelect from '@/Components/Select.vue';
 import Pagination from '@/Components/Pagination.vue';
 import TicketStatus from "@/Components/TicketStatus.vue";
 import TicketPriority from "@/Components/TicketPriority.vue";
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, Link } from '@inertiajs/inertia-vue3';
 import {reactive, watch} from "vue";
 import {Inertia} from "@inertiajs/inertia";
 
@@ -72,7 +72,7 @@ watch(filters, (value) => {
                                                 <th scope="col" class="text-sm font-medium text-white px-6 py-4">الفني</th>
                                                 <th scope="col" class="text-sm font-medium text-white px-6 py-4">الأولوية</th>
                                                 <th scope="col" class="text-sm font-medium text-white px-6 py-4">الحالة</th>
-                                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">التفاصيل</th>
+                                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">إجراء</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -90,6 +90,29 @@ watch(filters, (value) => {
                                                 </td>
                                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                     <breeze-link type="success" :href="route('tickets.show', ticket.uuid)">عرض</breeze-link>
+                                                    <Link
+                                                        class="inline-block
+                                                            border-red-600
+                                                            text-red-600
+                                                            px-6 py-2
+                                                            border-2
+                                                            font-medium
+                                                            text-xs
+                                                            mr-1
+                                                            leading-tight
+                                                            uppercase
+                                                            rounded-full
+                                                            hover:bg-black
+                                                            hover:bg-opacity-5
+                                                            focus:outline-none
+                                                            focus:ring-0
+                                                            transition
+                                                            duration-150
+                                                            ease-in-out"
+                                                        theme="danger"
+                                                        :href="route('tickets.destroy', ticket.uuid)"
+                                                        method="delete"
+                                                        as="button">حذف</Link>
                                                 </td>
                                             </tr>
                                             </tbody>
