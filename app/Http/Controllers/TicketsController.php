@@ -26,7 +26,7 @@ class TicketsController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['checkRole:admin|moderator'])->only(['create', 'store']);
+        $this->middleware(['checkRole:admin|moderator'])->only(['create', 'store', 'destroy']);
     }
 
     /**

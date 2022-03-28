@@ -1,5 +1,7 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
+import TicketByStatus from "@/Components/TicketByStatus";
+
 import { Head } from '@inertiajs/inertia-vue3';
 
 defineProps({

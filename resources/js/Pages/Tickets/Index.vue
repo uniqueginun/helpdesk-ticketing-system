@@ -41,7 +41,7 @@ watch(filters, (value) => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="w-full sm:max-w-md my-3 flex flex-row items-center justify-end">
@@ -91,6 +91,7 @@ watch(filters, (value) => {
                                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                     <breeze-link type="success" :href="route('tickets.show', ticket.uuid)">عرض</breeze-link>
                                                     <Link
+                                                        v-if="$page.props.auth.user.role !== 'technician'"
                                                         class="inline-block
                                                             border-red-600
                                                             text-red-600

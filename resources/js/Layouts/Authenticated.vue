@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
+import BreezeMainApplicationLogo from '@/Components/ApplicationMainLogo.vue';
 import BreezeDropdown from '@/Components/Dropdown.vue';
 import BreezeDropdownLink from '@/Components/DropdownLink.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
@@ -21,8 +22,9 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <BreezeApplicationLogo class="block h-9 w-auto" />
+                                <Link :href="route('dashboard')" class="flex flex-row">
+                                    <BreezeApplicationLogo class="block h-12 w-auto" />
+                                    <BreezeMainApplicationLogo class="block h-12 w-auto" />
                                 </Link>
                             </div>
 
@@ -32,9 +34,15 @@ const showingNavigationDropdown = ref(false);
                                     لوحة التحكم
                                 </BreezeNavLink>
 
-                                <BreezeNavLink v-if="$page.props.auth.user.role === 'admin'" :href="route('users.index')" :active="route().current('users.index')">
-                                    المستخدمين
-                                </BreezeNavLink>
+                                <template v-if="$page.props.auth.user.role === 'admin'">
+                                    <BreezeNavLink :href="route('users.index')" :active="route().current('users.index')">
+                                        المستخدمين
+                                    </BreezeNavLink>
+
+                                    <BreezeNavLink :href="route('reports.index')" :active="route().current('reports.index')">
+                                        التقارير
+                                    </BreezeNavLink>
+                                </template>
 
                                 <BreezeNavLink v-if="$page.props.auth.user.role !== 'technician'" :href="route('departments.index')" :active="route().current('departments.index')">
                                     الأقسام
@@ -103,9 +111,15 @@ const showingNavigationDropdown = ref(false);
                                 لوحة التحكم
                             </BreezeResponsiveNavLink>
 
-                            <BreezeResponsiveNavLink v-if="$page.props.auth.user.role === 'admin'" :href="route('users.index')" :active="route().current('users.index')">
-                                المستخدمين
-                            </BreezeResponsiveNavLink>
+                            <template v-if="$page.props.auth.user.role === 'admin'">
+                                <BreezeResponsiveNavLink :href="route('users.index')" :active="route().current('users.index')">
+                                    المستخدمين
+                                </BreezeResponsiveNavLink>
+
+                                <BreezeResponsiveNavLink :href="route('reports.index')" :active="route().current('reports.index')">
+                                    التقارير
+                                </BreezeResponsiveNavLink>
+                            </template>
 
                             <BreezeResponsiveNavLink v-if="$page.props.auth.user.role !== 'technician'" :href="route('departments.index')" :active="route().current('departments.index')">
                                 الأقسام
@@ -138,3 +152,10 @@ const showingNavigationDropdown = ref(false);
         </div>
     </div>
 </template>
+
+<style>
+    td.text-sm, th.text-sm {
+        font-size: 1.125rem !important;
+        line-height: 1.75rem !important;
+    }
+</style>

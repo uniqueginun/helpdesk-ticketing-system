@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Application;
@@ -19,16 +20,6 @@ use Inertia\Inertia;
 |
 */
 
-//Route::get('/', function () {
-//    return Inertia::render('Welcome', [
-//        'canLogin' => Route::has('login'),
-//        'canRegister' => Route::has('register'),
-//        'laravelVersion' => Application::VERSION,
-//        'phpVersion' => PHP_VERSION,
-//    ]);
-//});
-
-
 Route::redirect('/', '/login');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -36,6 +27,7 @@ Route::post('/dashboard', [DashboardController::class, 'query'])->name('dashboar
 
 Route::prefix('/admin')->middleware(['auth', 'verified', 'checkRole:admin'])->group(function () {
     Route::resource('users', UsersController::class);
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 });
 
 Route::prefix('/tickets')->as('tickets.')->middleware(['auth', 'verified'])->group(function () {
