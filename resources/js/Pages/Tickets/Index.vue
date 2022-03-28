@@ -37,7 +37,7 @@ watch(filters, (value) => {
                 <span v-if="tickets.total">(الإجمالي: {{ tickets.total }})</span>
             </h2>
 
-            <breeze-link v-if="$page.props.auth.user.role === 'admin'" type="success" :href="route('tickets.create')">إنشاء بلاغ جديد</breeze-link>
+            <breeze-link v-if="$page.props.auth.user.role === 'moderator'" type="success" :href="route('tickets.create')">إنشاء بلاغ جديد</breeze-link>
         </template>
 
         <div class="py-12">

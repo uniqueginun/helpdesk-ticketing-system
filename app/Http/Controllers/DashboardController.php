@@ -66,7 +66,7 @@ class DashboardController extends Controller
     {
         $transformer = function ($ticket) {
             return [
-                'status' => $ticket->status,
+                'status_name' => $ticket->status,
                 'display_name' => Ticket::$ticketStatus[$ticket->status],
                 'status_count' => $ticket->status_count
             ];

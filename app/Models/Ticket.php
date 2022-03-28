@@ -51,7 +51,10 @@ class Ticket extends Model
     public static array $deviceTypes = [
         1 => 'حاسب آلي',
         2 => 'طابعة',
-        3 => 'اسكنر',
+        3 => 'ماسح ضوئي',
+        5 => 'شاشة',
+        6 => 'شبكة',
+        7 => 'تلفون',
         4 => 'أخرى',
     ];
 
