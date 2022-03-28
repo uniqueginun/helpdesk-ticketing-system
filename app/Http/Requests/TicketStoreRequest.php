@@ -35,4 +35,17 @@ class TicketStoreRequest extends FormRequest
             'technician' => ['required', Rule::exists('users', 'id')],
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'ticket_type' => 'نوع البلاغ',
+            'other_ticket_type' => 'النوع مطلوب',
+            'employee_name' => 'إسم الموظف',
+            'department_id' => 'الإدارة',
+            'priority' => 'الأولوية',
+            'details' => 'تفاصيل البلاغ',
+            'technician' => 'الفني',
+        ];
+    }
 }

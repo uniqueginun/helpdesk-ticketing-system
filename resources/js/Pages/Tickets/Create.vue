@@ -83,7 +83,7 @@ defineProps({
 
                         <div class="mt-4">
                             <BreezeLabel for="details" value="تفاصيل البلاغ" />
-                            <BreezeTextarea id="details" rows="10" v-model="form.details"></BreezeTextarea>
+                            <BreezeTextarea id="details" rows="10" v-model="form.details" required></BreezeTextarea>
                             <input-error :message="form.errors.details"></input-error>
                         </div>
 

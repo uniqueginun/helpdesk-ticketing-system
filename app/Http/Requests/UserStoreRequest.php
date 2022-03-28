@@ -41,4 +41,14 @@ class UserStoreRequest extends FormRequest
             ]
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => 'الإسم',
+            'email' => 'البريد الإلكتروني',
+            'password' => 'كلمة المرور',
+            'user_role' => 'نوع المستخدم',
+        ];
+    }
 }

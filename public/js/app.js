@@ -27689,7 +27689,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         modelValue: $setup.form.details,
         "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
           return $setup.form.details = $event;
-        })
+        }),
+        required: ""
       }, null, 8
       /* PROPS */
       , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InputError"], {
